@@ -1,10 +1,14 @@
 package jewoospring.splearn.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member {
     private String email;
 
@@ -14,16 +18,16 @@ public class Member {
 
     private MemberStatus status;
 
-    private Member(String email, String nickname, String passwordHash) {
-        this.email = email;
-        this.nickname = nickname;
-        this.passwordHash = passwordHash;
+    public static Member create(MemberCreateRequest createRequest, PasswordEncoder passwordEncoder) {
+        var member = new Member();
 
-        this.status = MemberStatus.PENDING;
-    }
+        member.email = requireNonNull(createRequest.email());
+        member.nickname = requireNonNull(createRequest.nickname());
+        member.passwordHash = requireNonNull(passwordEncoder.encode(createRequest.password()));
 
-    public static Member create(String email, String nickname, String password, PasswordEncoder passwordEncoder) {
-        return new Member(email, nickname, passwordEncoder.encode(password));
+        member.status = MemberStatus.PENDING;
+
+        return member;
     }
 
     public void activate() {
@@ -48,5 +52,9 @@ public class Member {
 
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
         this.passwordHash = passwordEncoder.encode(password);
+    }
+
+    public boolean isActive() {
+        return this.status == MemberStatus.ACTIVE;
     }
 }
