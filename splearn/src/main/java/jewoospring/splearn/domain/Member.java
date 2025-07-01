@@ -10,7 +10,7 @@ import static org.springframework.util.Assert.state;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member {
-    private String email;
+    private Email email;
 
     private String nickname;
 
@@ -21,7 +21,7 @@ public class Member {
     public static Member create(MemberCreateRequest createRequest, PasswordEncoder passwordEncoder) {
         var member = new Member();
 
-        member.email = requireNonNull(createRequest.email());
+        member.email = new Email(requireNonNull(createRequest.email()));
         member.nickname = requireNonNull(createRequest.nickname());
         member.passwordHash = requireNonNull(passwordEncoder.encode(createRequest.password()));
 
