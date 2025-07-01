@@ -9,30 +9,34 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MemberTest {
     private Member member;
-
-    private static String password = "testPasswordHash";
-
-    private static PasswordEncoder passwordEncoder = new PasswordEncoder() {
-        @Override
-        public String encode(String password) {
-            return password.toUpperCase();
-        }
-
-        @Override
-        public boolean matches(String password, String passwordHash) {
-            return password.toUpperCase().equals(passwordHash);
-        }
-    };
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {
-        member = Member.create("jewoo15@example.com", "jewoo", password, passwordEncoder);
+        this.passwordEncoder = new PasswordEncoder() {
+            @Override
+            public String encode(String password) {
+                return password.toUpperCase();
+            }
+
+            @Override
+            public boolean matches(String password, String passwordHash) {
+                return password.toUpperCase().equals(passwordHash);
+            }
+        };
+
+        member = Member.create("jewoo15@example.com", "jewoo", "secret", passwordEncoder);
     }
 
     @DisplayName("회원이 최초로 생성된 시점의 상태는 '대기중' 상태이다.")
     @Test
     void createMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+    }
+
+    @Test
+    void createNullCheck() {
+        Member.create(null, "jewoo", "secret", passwordEncoder);
     }
 
     @DisplayName("회원은 '대기중' 상태이면 '활성 상태' 로 변환이 가능하다.")
@@ -70,12 +74,28 @@ class MemberTest {
     }
 
     @Test
-    void passwordMatchesSuccessful() {
-        assertThat(passwordEncoder.matches(password, member.getPasswordHash())).isTrue();
+    void passwordVerifySuccessful() {
+        assertThat(member.verifyPassword("secret", passwordEncoder)).isTrue();
     }
 
     @Test
-    void passwordMatchesInFailure() {
-        assertThat(passwordEncoder.matches("wrongPasswordHash", member.getPasswordHash())).isFalse();
+    void passwordVerifyInFailure() {
+        assertThat(member.verifyPassword("wrongPassword", passwordEncoder)).isFalse();
+    }
+
+    @Test
+    void changeNicknameSuccessful() {
+        assertThat(member.getNickname()).isEqualTo("jewoo");
+
+        member.changeNickname("unho");
+
+        assertThat(member.getNickname()).isEqualTo("unho");
+    }
+
+    @Test
+    void changePasswordSuccessful() {
+        member.changePassword("verysecret", passwordEncoder);
+
+        assertThat(member.verifyPassword("verysecret", passwordEncoder)).isTrue();
     }
 }
