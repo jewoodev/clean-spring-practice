@@ -17,4 +17,6 @@ public interface MemberRepository extends Repository<Member, Long> {
     int deleteAll();
 
     void deleteAllInBatch();
+
+    Optional<Member> findById(Long id);
 }

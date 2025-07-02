@@ -1,6 +1,7 @@
 package jewoospring.splearn.application;
 
 import jakarta.transaction.Transactional;
+import jewoospring.splearn.application.provided.MemberFinder;
 import jewoospring.splearn.application.provided.MemberRegister;
 import jewoospring.splearn.application.required.EmailSender;
 import jewoospring.splearn.application.required.MemberRepository;
@@ -12,7 +13,8 @@ import org.springframework.validation.annotation.Validated;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class MemberService implements MemberRegister {
+public class MemberModifyService implements MemberRegister {
+    private final MemberFinder memberFinder;
     private final MemberRepository memberRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
@@ -39,5 +41,15 @@ public class MemberService implements MemberRegister {
 
     private void sendWelcomeEmail(Member member) {
         emailSender.send(member.getEmail(), "등록을 완료해주세요", "아래 링크를 클릭해서 등록을 완료해주세요");
+    }
+
+    @Transactional
+    @Override
+    public Member activate(Long memberId) {
+        Member member = memberFinder.find(memberId);
+
+        member.activate();
+
+        return memberRepository.save(member);
     }
 }

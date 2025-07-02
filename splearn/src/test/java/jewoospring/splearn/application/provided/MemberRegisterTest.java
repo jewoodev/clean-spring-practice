@@ -1,5 +1,6 @@
 package jewoospring.splearn.application.provided;
 
+import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
 import jewoospring.splearn.SplearnTestConfiguration;
 import jewoospring.splearn.application.required.MemberRepository;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Import(SplearnTestConfiguration.class)
-record MemberRegisterTest(MemberRegister memberRegister, MemberRepository memberRepository) {
+record MemberRegisterTest(MemberRegister memberRegister, MemberRepository memberRepository, EntityManager em) {
 
     @AfterEach
     void tearDown() {
@@ -36,6 +37,15 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
 
         assertThatThrownBy(() -> memberRegister.register(MemberFixture.createMemberRegisterRequest()))
                 .isInstanceOf(DuplicateEmailException.class);
+    }
+
+    @Test
+    void activateSuccessful() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+
+        member = memberRegister.activate(member.getId());
+
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
     }
 
     @Test
