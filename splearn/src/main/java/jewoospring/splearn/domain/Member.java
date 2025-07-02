@@ -1,21 +1,30 @@
 package jewoospring.splearn.domain;
 
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
+@Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
     private Email email;
 
     private String nickname;
 
     private String passwordHash;
 
+    @Enumerated(value = EnumType.STRING)
     private MemberStatus status;
 
     public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder) {

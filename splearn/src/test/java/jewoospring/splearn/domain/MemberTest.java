@@ -3,6 +3,8 @@ package jewoospring.splearn.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static jewoospring.splearn.domain.MemberFixture.createMemberRegisterRequest;
+import static jewoospring.splearn.domain.MemberFixture.createPasswordEncoder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -12,19 +14,9 @@ class MemberTest {
 
     @BeforeEach
     void setUp() {
-        this.passwordEncoder = new PasswordEncoder() {
-            @Override
-            public String encode(String password) {
-                return password.toUpperCase();
-            }
+        this.passwordEncoder = createPasswordEncoder();
 
-            @Override
-            public boolean matches(String password, String passwordHash) {
-                return password.toUpperCase().equals(passwordHash);
-            }
-        };
-
-        var createRequest = new MemberRegisterRequest("jewoo15@example.com", "jewoo", "secret");
+        var createRequest = createMemberRegisterRequest();
         member = Member.register(createRequest, passwordEncoder);
     }
 
@@ -35,7 +27,7 @@ class MemberTest {
 
     @Test
     void registerNullCheck() {
-        var createRequest = new MemberRegisterRequest(null, "jewoo", "secret");
+        var createRequest = createMemberRegisterRequest(null);
         assertThatThrownBy(() -> Member.register(createRequest, passwordEncoder))
                 .isInstanceOf(NullPointerException.class);
     }
@@ -113,14 +105,12 @@ class MemberTest {
     void invalidEmail() {
         assertThatThrownBy(() ->
                 Member.register(
-                        new MemberRegisterRequest("invalidEmail", "jewoo", "secret"),
+                        createMemberRegisterRequest("invalidEmail"),
                         passwordEncoder)
         ).isInstanceOf(IllegalArgumentException.class);
 
         assertThat(
-                Member.register(
-                        new MemberRegisterRequest("jewoos15@naver.com", "jewoo", "secret"),
-                        passwordEncoder)
-        );
+                Member.register(createMemberRegisterRequest(), passwordEncoder)
+        ).isInstanceOf(Member.class);
     }
 }
