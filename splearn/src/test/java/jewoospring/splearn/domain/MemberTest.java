@@ -24,19 +24,19 @@ class MemberTest {
             }
         };
 
-        var createRequest = new MemberCreateRequest("jewoo15@example.com", "jewoo", "secret");
-        member = Member.create(createRequest, passwordEncoder);
+        var createRequest = new MemberRegisterRequest("jewoo15@example.com", "jewoo", "secret");
+        member = Member.register(createRequest, passwordEncoder);
     }
 
     @Test
-    void createMember() {
+    void registerMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
     }
 
     @Test
-    void createNullCheck() {
-        var createRequest = new MemberCreateRequest(null, "jewoo", "secret");
-        assertThatThrownBy(() -> Member.create(createRequest, passwordEncoder))
+    void registerNullCheck() {
+        var createRequest = new MemberRegisterRequest(null, "jewoo", "secret");
+        assertThatThrownBy(() -> Member.register(createRequest, passwordEncoder))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -112,14 +112,14 @@ class MemberTest {
     @Test
     void invalidEmail() {
         assertThatThrownBy(() ->
-                Member.create(
-                        new MemberCreateRequest("invalidEmail", "jewoo", "secret"),
+                Member.register(
+                        new MemberRegisterRequest("invalidEmail", "jewoo", "secret"),
                         passwordEncoder)
         ).isInstanceOf(IllegalArgumentException.class);
 
         assertThat(
-                Member.create(
-                        new MemberCreateRequest("jewoos15@naver.com", "jewoo", "secret"),
+                Member.register(
+                        new MemberRegisterRequest("jewoos15@naver.com", "jewoo", "secret"),
                         passwordEncoder)
         );
     }

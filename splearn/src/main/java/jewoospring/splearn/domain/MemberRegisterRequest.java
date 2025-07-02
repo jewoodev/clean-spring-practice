@@ -1,6 +1,6 @@
 package jewoospring.splearn.domain;
 
-public record MemberCreateRequest(
+public record MemberRegisterRequest(
         String email,
         String nickname,
         String password
