@@ -64,7 +64,7 @@ class MemberTest {
 
     @Test
     void passwordVerifySuccessful() {
-        assertThat(member.verifyPassword("secret", passwordEncoder)).isTrue();
+        assertThat(member.verifyPassword("secretsecretsecret", passwordEncoder)).isTrue();
     }
 
     @Test

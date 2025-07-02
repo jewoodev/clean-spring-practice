@@ -1,13 +1,16 @@
 package jewoospring.splearn.application;
 
+import jakarta.transaction.Transactional;
 import jewoospring.splearn.application.provided.MemberRegister;
 import jewoospring.splearn.application.required.EmailSender;
 import jewoospring.splearn.application.required.MemberRepository;
 import jewoospring.splearn.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class MemberService implements MemberRegister {
     private final MemberRepository memberRepository;
@@ -15,6 +18,7 @@ public class MemberService implements MemberRegister {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public Member register(MemberRegisterRequest registerRequest) {
         checkDuplicatedEmail(registerRequest);
 
