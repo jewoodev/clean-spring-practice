@@ -50,12 +50,12 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
 
     @Test
     void memberRegisterRequestFail() {
-        extracted(new MemberRegisterRequest("jewoos15@naver.com", "jeo", "longsecret"));
-        extracted(new MemberRegisterRequest("jewoos15@naver.com", "HamonYe-----------------------------------------------------", "longsecret"));
-        extracted(new MemberRegisterRequest("jewoos15naver.com", "HamonYe", "longsecret"));
+        checkValidation(new MemberRegisterRequest("jewoos15@naver.com", "jeo", "longsecret"));
+        checkValidation(new MemberRegisterRequest("jewoos15@naver.com", "HamonYe-----------------------------------------------------", "longsecret"));
+        checkValidation(new MemberRegisterRequest("jewoos15naver.com", "HamonYe", "longsecret"));
     }
 
-    private AbstractThrowableAssert<?, ? extends Throwable> extracted(MemberRegisterRequest invalid) {
+    private AbstractThrowableAssert<?, ? extends Throwable> checkValidation(MemberRegisterRequest invalid) {
         return assertThatThrownBy(() -> memberRegister.register(invalid))
                 .isInstanceOf(ConstraintViolationException.class);
     }
