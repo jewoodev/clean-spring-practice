@@ -19,6 +19,9 @@
             <unique-constraint name="UK_MEMBER_EMAIL_ADDRESS">
                 <column-name>email_address</column-name>
             </unique-constraint>
+            <unique-constraint name="UK_MEMBER_DETAIL">
+                <column-name>detail_id</column-name>
+            </unique-constraint>
         </table>
 
         <attributes>

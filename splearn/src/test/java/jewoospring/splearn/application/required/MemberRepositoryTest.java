@@ -1,6 +1,5 @@
 package jewoospring.splearn.application.required;
 
-import jakarta.persistence.EntityManager;
 import jewoospring.splearn.domain.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,6 @@ class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    EntityManager em;
-
     @Test
     void createMember() {
         var member = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
@@ -29,8 +25,6 @@ class MemberRepositoryTest {
         memberRepository.save(member);
 
         assertThat(member.getId()).isNotNull();
-
-        em.flush();
     }
 
     @Test

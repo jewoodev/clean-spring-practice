@@ -1,7 +1,6 @@
 package jewoospring.splearn.domain;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +26,10 @@ public class Member extends AbstractEntity {
     private String passwordHash;
 
     private MemberStatus status;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, foreignKey = @ForeignKey(name="FK_MEMBER_DETAIL"))
+    private MemberDetail detail;
 
     public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder) {
         var member = new Member();
