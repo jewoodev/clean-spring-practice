@@ -24,6 +24,8 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
     void register() {
         Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
 
+        System.out.println(member);
+
         assertThat(member.getId()).isNotNull();
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
     }

@@ -34,18 +34,8 @@
                 <column name="status" length="50" nullable="false"/>
                 <enumerated>STRING</enumerated>
             </basic>
-
-            <embedded name="email">
-            </embedded>
         </attributes>
     </entity>
 
-    <embeddable class="jewoospring.splearn.domain.Email">
-        <attributes>
-            <basic name="address">
-                <column name="email_address" length="250" nullable="false"/>
-            </basic>
-        </attributes>
-    </embeddable>
 
 </entity-mappings>

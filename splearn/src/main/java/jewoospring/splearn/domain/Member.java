@@ -1,5 +1,6 @@
 package jewoospring.splearn.domain;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,10 +14,11 @@ import static org.springframework.util.Assert.state;
 
 @Entity
 @Getter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends AbstractEntity {
     @NaturalId
+    @Embedded
     private Email email;
 
     /** 닉네임 **/
