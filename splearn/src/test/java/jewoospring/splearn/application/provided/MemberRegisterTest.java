@@ -2,20 +2,17 @@ package jewoospring.splearn.application.provided;
 
 import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
-import jewoospring.splearn.SplearnTestConfiguration;
 import jewoospring.splearn.application.required.MemberRepository;
 import jewoospring.splearn.domain.*;
 import org.assertj.core.api.AbstractThrowableAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-@Import(SplearnTestConfiguration.class)
 record MemberRegisterTest(MemberRegister memberRegister, MemberRepository memberRepository, EntityManager em) {
 
     @AfterEach

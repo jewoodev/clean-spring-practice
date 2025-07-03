@@ -87,6 +87,9 @@ class MemberTest {
 
         assertThatThrownBy(() -> member.changeNickname("unho"))
                 .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> member.changeNickname("unho-------------------------------------------------"))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -99,6 +102,9 @@ class MemberTest {
     @Test
     void changePasswordInFailure() {
         assertThatThrownBy(() -> member.changePassword("short", passwordEncoder))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> member.changePassword("verysecretverysecretverysecretverysecretverysecretverysecretverysecretverysecretverysecretverysecretverysecretverysecret", passwordEncoder))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

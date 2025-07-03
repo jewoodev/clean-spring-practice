@@ -1,4 +1,15 @@
 spring:
   application.name: splearn
+  profiles:
+    active: local
+
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/splearn
+    username: root
+    password: my1234
