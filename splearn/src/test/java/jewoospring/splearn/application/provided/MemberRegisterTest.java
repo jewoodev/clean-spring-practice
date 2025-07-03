@@ -53,6 +53,7 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
         checkValidation(new MemberRegisterRequest("jewoos15@naver.com", "jeo", "longsecret"));
         checkValidation(new MemberRegisterRequest("jewoos15@naver.com", "HamonYe-----------------------------------------------------", "longsecret"));
         checkValidation(new MemberRegisterRequest("jewoos15naver.com", "HamonYe", "longsecret"));
+        checkValidation(new MemberRegisterRequest("jewoos15naver.com", "HamonYe", "short"));
     }
 
     private AbstractThrowableAssert<?, ? extends Throwable> checkValidation(MemberRegisterRequest invalid) {

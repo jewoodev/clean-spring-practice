@@ -9,6 +9,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
 import static java.util.Objects.requireNonNull;
+import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.state;
 
 @Entity
@@ -60,10 +61,12 @@ public class Member {
     }
 
     public void changeNickname(String nickname) {
+        isTrue(nickname.length() >= 5 && nickname.length() <= 20, "닉네임은 5 ~ 20 자 사이의 길이를 가져야 합니다");
         this.nickname = nickname;
     }
 
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
+        isTrue(password.length() >= 8 && password.length() <= 100, "비밀번호는 8 ~ 100자 사이의 길이를 가져야 합니다");
         this.passwordHash = passwordEncoder.encode(password);
     }
 

@@ -76,9 +76,17 @@ class MemberTest {
     void changeNicknameSuccessful() {
         assertThat(member.getNickname()).isEqualTo("jewoo");
 
-        member.changeNickname("unho");
+        member.changeNickname("unhounho");
 
-        assertThat(member.getNickname()).isEqualTo("unho");
+        assertThat(member.getNickname()).isEqualTo("unhounho");
+    }
+
+    @Test
+    void changeNicknameInFailure() {
+        assertThat(member.getNickname()).isEqualTo("jewoo");
+
+        assertThatThrownBy(() -> member.changeNickname("unho"))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -86,6 +94,12 @@ class MemberTest {
         member.changePassword("verysecret", passwordEncoder);
 
         assertThat(member.verifyPassword("verysecret", passwordEncoder)).isTrue();
+    }
+
+    @Test
+    void changePasswordInFailure() {
+        assertThatThrownBy(() -> member.changePassword("short", passwordEncoder))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
