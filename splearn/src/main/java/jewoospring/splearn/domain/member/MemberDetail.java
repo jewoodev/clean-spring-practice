@@ -1,14 +1,14 @@
 package jewoospring.splearn.domain.member;
 
-import jakarta.persistence.Embedded;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jewoospring.splearn.domain.AbstractEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -19,16 +19,18 @@ import static org.springframework.util.Assert.isTrue;
 @Getter
 @ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 public class MemberDetail extends AbstractEntity {
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(mappedBy = "detail")
     private Member member;
 
-    @Embedded
+    @Column(length = 20)
     private Profile profile;
 
+    @Column(length = 50)
     private String introduction;
 
+    @Column(nullable = false)
     private LocalDateTime registeredAt;
 
     private LocalDateTime activatedAt;

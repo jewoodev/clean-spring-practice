@@ -14,8 +14,7 @@ import java.util.Objects;
 @MappedSuperclass
 @ToString
 public abstract class AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter(onMethod_ = { @Nullable })
     private Long id;
 

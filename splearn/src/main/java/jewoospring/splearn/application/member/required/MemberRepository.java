@@ -4,6 +4,7 @@ import jewoospring.splearn.domain.shared.Email;
 import jewoospring.splearn.domain.member.Member;
 import org.springframework.data.repository.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,4 +20,6 @@ public interface MemberRepository extends Repository<Member, Long> {
     void deleteAllInBatch();
 
     Optional<Member> findById(Long id);
+
+    List<Member> findAll();
 }

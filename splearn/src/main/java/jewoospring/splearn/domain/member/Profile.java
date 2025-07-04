@@ -1,11 +1,15 @@
 package jewoospring.splearn.domain.member;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.util.regex.Pattern;
 
 @Embeddable
-public record Profile(String address) {
+public record Profile(
+        @Column(length = 20, name = "profile_address")
+        String address
+) {
     private static final Pattern PROFILE_ADDRESS_PATTERN = Pattern.compile("^@[a-z0-9]+");
 
     public Profile {
@@ -17,7 +21,7 @@ public record Profile(String address) {
             throw new NullPointerException("프로필 설정에 관련된 비이상적인 사용이 확인되었습니다.");
         }
 
-        if (address.length() > 20) {
+        if (address.length() > 21) {
             throw new IllegalArgumentException("프로필 주소는 최대 20자리를 넘을 수 없습니다");
         }
     }

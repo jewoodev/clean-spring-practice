@@ -2,6 +2,7 @@ package jewoospring.splearn.application.member.provided;
 
 import jakarta.validation.Valid;
 import jewoospring.splearn.domain.member.Member;
+import jewoospring.splearn.domain.member.MemberInfoUpdateRequest;
 import jewoospring.splearn.domain.member.MemberRegisterRequest;
 
 /**
@@ -11,4 +12,8 @@ public interface MemberRegister {
     Member register(@Valid MemberRegisterRequest registerRequest);
 
     Member activate(Long memberId);
+
+    Member deactivate(Long memberId);
+
+    Member updateInfo(Long memberId, @Valid MemberInfoUpdateRequest updateRequest);
 }

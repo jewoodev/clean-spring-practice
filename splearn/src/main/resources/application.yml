@@ -1,12 +1,18 @@
 spring:
-  application.name: splearn
   profiles:
-    active: local
+    default: local
 
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -17,14 +23,9 @@ spring:
 ---
 
 spring:
-  application.name: splearn
-  profiles:
-    active: test
-
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
+  config:
+    activate:
+      on-profile: test
 
   datasource:
     driver-class-name: org.h2.Driver

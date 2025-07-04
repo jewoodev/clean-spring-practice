@@ -5,10 +5,7 @@ import jewoospring.splearn.application.member.provided.MemberFinder;
 import jewoospring.splearn.application.member.provided.MemberRegister;
 import jewoospring.splearn.application.member.required.EmailSender;
 import jewoospring.splearn.application.member.required.MemberRepository;
-import jewoospring.splearn.domain.member.DuplicateEmailException;
-import jewoospring.splearn.domain.member.Member;
-import jewoospring.splearn.domain.member.MemberRegisterRequest;
-import jewoospring.splearn.domain.member.PasswordEncoder;
+import jewoospring.splearn.domain.member.*;
 import jewoospring.splearn.domain.shared.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,6 +50,26 @@ public class MemberModifyService implements MemberRegister {
         Member member = memberFinder.find(memberId);
 
         member.activate();
+
+        return memberRepository.save(member);
+    }
+
+    @Transactional
+    @Override
+    public Member deactivate(Long memberId) {
+        Member member = memberFinder.find(memberId);
+
+        member.deactivate();
+
+        return memberRepository.save(member);
+    }
+
+    @Transactional
+    @Override
+    public Member updateInfo(Long memberId, MemberInfoUpdateRequest updateRequest) {
+        Member member = memberFinder.find(memberId);
+
+        member.updateInfo(updateRequest);
 
         return memberRepository.save(member);
     }

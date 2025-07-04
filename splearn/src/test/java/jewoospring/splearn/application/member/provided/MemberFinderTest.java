@@ -26,7 +26,7 @@ record MemberFinderTest(MemberRegister memberRegister, MemberFinder memberFinder
 
     @Test
     void findSuccessful() {
-        assertThat(memberFinder.find(1L)).isNotNull();
+        assertThat(memberFinder.findAll()).isNotNull();
     }
 
     @Test

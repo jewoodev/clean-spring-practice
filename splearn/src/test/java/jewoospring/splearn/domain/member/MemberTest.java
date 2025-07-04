@@ -77,6 +77,8 @@ class MemberTest {
 
     @Test
     void changeNicknameSuccessful() {
+        member.activate();
+
         assertThat(member.getNickname()).isEqualTo("jewoo");
 
         member.changeNickname("unhounho");
@@ -86,6 +88,11 @@ class MemberTest {
 
     @Test
     void changeNicknameInFailure() {
+        assertThatThrownBy(() -> member.changeNickname("jewoo"))
+                .isInstanceOf(IllegalStateException.class);
+
+        member.activate();
+
         assertThat(member.getNickname()).isEqualTo("jewoo");
 
         assertThatThrownBy(() -> member.changeNickname("unho"))
@@ -97,6 +104,8 @@ class MemberTest {
 
     @Test
     void changePasswordSuccessful() {
+        member.activate();
+
         member.changePassword("verysecret", passwordEncoder);
 
         assertThat(member.verifyPassword("verysecret", passwordEncoder)).isTrue();
@@ -104,6 +113,11 @@ class MemberTest {
 
     @Test
     void changePasswordInFailure() {
+        assertThatThrownBy(() -> member.changePassword("short", passwordEncoder))
+                .isInstanceOf(IllegalStateException.class);
+
+        member.activate();
+
         assertThatThrownBy(() -> member.changePassword("short", passwordEncoder))
                 .isInstanceOf(IllegalArgumentException.class);
 
@@ -139,6 +153,8 @@ class MemberTest {
 
     @Test
     void updateInfoSuccessful() {
+        member.activate();
+
         var request = new MemberInfoUpdateRequest("@jewoo", "저는 제우입니다.");
         member.updateInfo(request);
 
@@ -148,6 +164,11 @@ class MemberTest {
 
     @Test
     void updateInfoInFailure() {
+        assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest(null, "저는 제우입니다.")))
+                .isInstanceOf(IllegalStateException.class);
+
+        member.activate();
+
         assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest(null, "저는 제우입니다.")))
                 .isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest("@jewoo", "앙!")))
