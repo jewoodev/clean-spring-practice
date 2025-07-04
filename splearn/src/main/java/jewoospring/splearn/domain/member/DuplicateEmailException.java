@@ -1,4 +1,4 @@
-package jewoospring.splearn.domain;
+package jewoospring.splearn.domain.member;
 
 public class DuplicateEmailException extends RuntimeException {
     public DuplicateEmailException(String message) {

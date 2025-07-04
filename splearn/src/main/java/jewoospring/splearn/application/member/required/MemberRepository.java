@@ -1,7 +1,7 @@
-package jewoospring.splearn.application.required;
+package jewoospring.splearn.application.member.required;
 
-import jewoospring.splearn.domain.Email;
-import jewoospring.splearn.domain.Member;
+import jewoospring.splearn.domain.shared.Email;
+import jewoospring.splearn.domain.member.Member;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;

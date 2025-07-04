@@ -1,18 +1,24 @@
-package jewoospring.splearn.application.provided;
+package jewoospring.splearn.application.member.provided;
 
 import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
-import jewoospring.splearn.application.required.MemberRepository;
-import jewoospring.splearn.domain.*;
+import jewoospring.splearn.application.member.required.MemberRepository;
+import jewoospring.splearn.domain.member.DuplicateEmailException;
+import jewoospring.splearn.domain.member.Member;
+import jewoospring.splearn.domain.member.MemberRegisterRequest;
+import jewoospring.splearn.domain.member.MemberStatus;
 import org.assertj.core.api.AbstractThrowableAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+import static jewoospring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
+@ActiveProfiles("test")
 record MemberRegisterTest(MemberRegister memberRegister, MemberRepository memberRepository, EntityManager em) {
 
     @AfterEach
@@ -22,7 +28,7 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
 
     @Test
     void register() {
-        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        Member member = memberRegister.register(createMemberRegisterRequest());
 
         System.out.println(member);
 
@@ -32,15 +38,15 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
 
     @Test
     void duplicateEmailInFailure() {
-        Member member1 = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        Member member1 = memberRegister.register(createMemberRegisterRequest());
 
-        assertThatThrownBy(() -> memberRegister.register(MemberFixture.createMemberRegisterRequest()))
+        assertThatThrownBy(() -> memberRegister.register(createMemberRegisterRequest()))
                 .isInstanceOf(DuplicateEmailException.class);
     }
 
     @Test
     void activateSuccessful() {
-        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        Member member = memberRegister.register(createMemberRegisterRequest());
 
         member = memberRegister.activate(member.getId());
 

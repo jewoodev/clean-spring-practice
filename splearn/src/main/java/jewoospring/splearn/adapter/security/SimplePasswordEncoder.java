@@ -1,6 +1,6 @@
 package jewoospring.splearn.adapter.security;
 
-import jewoospring.splearn.domain.PasswordEncoder;
+import jewoospring.splearn.domain.member.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Fallback;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

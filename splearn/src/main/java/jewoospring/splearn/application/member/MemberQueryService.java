@@ -1,8 +1,8 @@
-package jewoospring.splearn.application;
+package jewoospring.splearn.application.member;
 
-import jewoospring.splearn.application.provided.MemberFinder;
-import jewoospring.splearn.application.required.MemberRepository;
-import jewoospring.splearn.domain.Member;
+import jewoospring.splearn.application.member.provided.MemberFinder;
+import jewoospring.splearn.application.member.required.MemberRepository;
+import jewoospring.splearn.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

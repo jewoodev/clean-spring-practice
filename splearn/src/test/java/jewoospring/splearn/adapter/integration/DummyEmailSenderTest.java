@@ -1,6 +1,6 @@
 package jewoospring.splearn.adapter.integration;
 
-import jewoospring.splearn.domain.Email;
+import jewoospring.splearn.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.StdIo;
 import org.junitpioneer.jupiter.StdOut;

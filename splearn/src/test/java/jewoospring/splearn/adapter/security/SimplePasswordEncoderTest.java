@@ -1,6 +1,5 @@
-package jewoospring.splearn.adapter.integration;
+package jewoospring.splearn.adapter.security;
 
-import jewoospring.splearn.adapter.security.SimplePasswordEncoder;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

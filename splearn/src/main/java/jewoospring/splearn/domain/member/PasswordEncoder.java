@@ -1,4 +1,4 @@
-package jewoospring.splearn.domain;
+package jewoospring.splearn.domain.member;
 
 public interface PasswordEncoder {
     String encode(String password);

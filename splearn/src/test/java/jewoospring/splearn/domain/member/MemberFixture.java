@@ -1,4 +1,4 @@
-package jewoospring.splearn.domain;
+package jewoospring.splearn.domain.member;
 
 public class MemberFixture {
     public static MemberRegisterRequest createMemberRegisterRequest() {

@@ -1,7 +1,7 @@
 package jewoospring.splearn.adapter.integration;
 
-import jewoospring.splearn.application.required.EmailSender;
-import jewoospring.splearn.domain.Email;
+import jewoospring.splearn.application.member.required.EmailSender;
+import jewoospring.splearn.domain.shared.Email;
 import org.springframework.context.annotation.Fallback;
 import org.springframework.stereotype.Component;
 

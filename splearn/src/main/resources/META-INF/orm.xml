@@ -14,7 +14,7 @@
         </attributes>
     </mapped-superclass>
 
-    <entity class="jewoospring.splearn.domain.Member">
+    <entity class="jewoospring.splearn.domain.member.Member">
         <table name="member">
             <unique-constraint name="UK_MEMBER_EMAIL_ADDRESS">
                 <column-name>email_address</column-name>

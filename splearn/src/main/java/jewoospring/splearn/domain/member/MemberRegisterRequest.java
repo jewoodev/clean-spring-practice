@@ -1,4 +1,4 @@
-package jewoospring.splearn.domain;
+package jewoospring.splearn.domain.member;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

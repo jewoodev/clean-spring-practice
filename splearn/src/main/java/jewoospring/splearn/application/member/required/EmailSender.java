@@ -1,6 +1,6 @@
-package jewoospring.splearn.application.required;
+package jewoospring.splearn.application.member.required;
 
-import jewoospring.splearn.domain.Email;
+import jewoospring.splearn.domain.shared.Email;
 
 /**
  * 이메일을 발송한다.

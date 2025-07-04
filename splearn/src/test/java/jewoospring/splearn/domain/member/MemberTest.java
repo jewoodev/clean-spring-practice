@@ -1,10 +1,10 @@
-package jewoospring.splearn.domain;
+package jewoospring.splearn.domain.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static jewoospring.splearn.domain.MemberFixture.createMemberRegisterRequest;
-import static jewoospring.splearn.domain.MemberFixture.createPasswordEncoder;
+import static jewoospring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
+import static jewoospring.splearn.domain.member.MemberFixture.createPasswordEncoder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -23,6 +23,7 @@ class MemberTest {
     @Test
     void registerMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(member.getDetail().getRegisteredAt()).isNotNull();
     }
 
     @Test
@@ -37,6 +38,7 @@ class MemberTest {
         member.activate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
     }
 
     @Test
@@ -54,6 +56,7 @@ class MemberTest {
         member.deactivate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+        assertThat(member.getDetail().getDeactivatedAt()).isNotNull();
     }
 
     @Test
@@ -132,5 +135,22 @@ class MemberTest {
         assertThat(
                 Member.register(createMemberRegisterRequest(), passwordEncoder)
         ).isInstanceOf(Member.class);
+    }
+
+    @Test
+    void updateInfoSuccessful() {
+        var request = new MemberInfoUpdateRequest("@jewoo", "저는 제우입니다.");
+        member.updateInfo(request);
+
+        assertThat(member.getDetail().getProfile().address()).isEqualTo(request.profileAddress());
+        assertThat(member.getDetail().getIntroduction()).isEqualTo(request.introduction());
+    }
+
+    @Test
+    void updateInfoInFailure() {
+        assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest(null, "저는 제우입니다.")))
+                .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest("@jewoo", "앙!")))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

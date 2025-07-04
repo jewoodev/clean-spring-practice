@@ -1,11 +1,15 @@
-package jewoospring.splearn.application;
+package jewoospring.splearn.application.member;
 
 import jakarta.transaction.Transactional;
-import jewoospring.splearn.application.provided.MemberFinder;
-import jewoospring.splearn.application.provided.MemberRegister;
-import jewoospring.splearn.application.required.EmailSender;
-import jewoospring.splearn.application.required.MemberRepository;
-import jewoospring.splearn.domain.*;
+import jewoospring.splearn.application.member.provided.MemberFinder;
+import jewoospring.splearn.application.member.provided.MemberRegister;
+import jewoospring.splearn.application.member.required.EmailSender;
+import jewoospring.splearn.application.member.required.MemberRepository;
+import jewoospring.splearn.domain.member.DuplicateEmailException;
+import jewoospring.splearn.domain.member.Member;
+import jewoospring.splearn.domain.member.MemberRegisterRequest;
+import jewoospring.splearn.domain.member.PasswordEncoder;
+import jewoospring.splearn.domain.shared.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

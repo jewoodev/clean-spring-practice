@@ -1,6 +1,8 @@
-package jewoospring.splearn.domain;
+package jewoospring.splearn.domain.member;
 
 import jakarta.persistence.*;
+import jewoospring.splearn.domain.AbstractEntity;
+import jewoospring.splearn.domain.shared.Email;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,7 @@ import static org.springframework.util.Assert.state;
 
 @Entity
 @Getter
-@ToString(callSuper = true)
+@ToString(callSuper = true, exclude = "detail")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends AbstractEntity {
     @NaturalId
@@ -27,7 +29,7 @@ public class Member extends AbstractEntity {
 
     private MemberStatus status;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false, foreignKey = @ForeignKey(name="FK_MEMBER_DETAIL"))
     private MemberDetail detail;
 
@@ -40,6 +42,8 @@ public class Member extends AbstractEntity {
 
         member.status = MemberStatus.PENDING;
 
+        member.detail = MemberDetail.create();
+
         return member;
     }
 
@@ -47,12 +51,14 @@ public class Member extends AbstractEntity {
         state(status == MemberStatus.PENDING, "PENDING 상태가 아닙니다");
 
         this.status = MemberStatus.ACTIVE;
+        this.detail.whenActivated();
     }
 
     public void deactivate() {
         state(status == MemberStatus.ACTIVE, "ACTIVE 상태가 아닙니다");
 
         this.status = MemberStatus.DEACTIVATED;
+        this.detail.whenDeactivated();
     }
 
     public boolean verifyPassword(String password, PasswordEncoder passwordEncoder) {
@@ -67,6 +73,10 @@ public class Member extends AbstractEntity {
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
         isTrue(password.length() >= 8 && password.length() <= 100, "비밀번호는 8 ~ 100자 사이의 길이를 가져야 합니다");
         this.passwordHash = passwordEncoder.encode(password);
+    }
+
+    public void updateInfo(MemberInfoUpdateRequest updateRequest) {
+        this.detail.updateMainInfo(updateRequest);
     }
 
     public boolean isActive() {

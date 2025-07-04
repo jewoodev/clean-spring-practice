@@ -1,4 +1,4 @@
-package jewoospring.splearn.domain;
+package jewoospring.splearn.domain.shared;
 
 import org.junit.jupiter.api.Test;
 
