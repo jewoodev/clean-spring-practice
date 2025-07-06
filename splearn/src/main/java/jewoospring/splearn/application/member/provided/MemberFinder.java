@@ -10,4 +10,6 @@ import java.util.List;
 public interface MemberFinder {
     Member find(Long memberId);
     List<Member> findAll();
+
+    boolean isExistProfile(String profileAddress);
 }

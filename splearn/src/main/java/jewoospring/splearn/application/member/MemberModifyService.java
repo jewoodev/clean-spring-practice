@@ -69,8 +69,21 @@ public class MemberModifyService implements MemberRegister {
     public Member updateInfo(Long memberId, MemberInfoUpdateRequest updateRequest) {
         Member member = memberFinder.find(memberId);
 
+        checkDuplicatedProfile(member, updateRequest.profileAddress());
         member.updateInfo(updateRequest);
 
         return memberRepository.save(member);
+    }
+
+    private void checkDuplicatedProfile(Member member, String profileAddress) {
+        if (profileAddress.isEmpty()) return;
+
+        Profile profile = member.getDetail().getProfile();
+        // 처음 세팅하는게 아니고, 원래 프로필 주소와 같은 주소이면 그냥 return
+        if (profile != null && profile.address().equals(profileAddress)) return;
+
+        if (memberFinder.isExistProfile(profileAddress)) {
+            throw new DuplicateProfileException("이미 사용 중인 프로필 주소입니다: " + profileAddress);
+        }
     }
 }

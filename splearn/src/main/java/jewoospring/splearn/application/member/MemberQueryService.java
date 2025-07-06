@@ -3,6 +3,7 @@ package jewoospring.splearn.application.member;
 import jewoospring.splearn.application.member.provided.MemberFinder;
 import jewoospring.splearn.application.member.required.MemberRepository;
 import jewoospring.splearn.domain.member.Member;
+import jewoospring.splearn.domain.member.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -23,5 +24,10 @@ public class MemberQueryService implements MemberFinder {
     @Override
     public List<Member> findAll() {
         return memberRepository.findAll();
+    }
+
+    @Override
+    public boolean isExistProfile(String profileAddress) {
+        return memberRepository.existsByProfile(new Profile(profileAddress));
     }
 }
