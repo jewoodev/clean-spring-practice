@@ -155,7 +155,7 @@ class MemberTest {
     void updateInfoSuccessful() {
         member.activate();
 
-        var request = new MemberInfoUpdateRequest("@jewoo", "저는 제우입니다.");
+        var request = new MemberInfoUpdateRequest(member.getId(), "@jewoo", "저는 제우입니다.");
         member.updateInfo(request);
 
         assertThat(member.getDetail().getProfile().address()).isEqualTo(request.profileAddress());
@@ -164,14 +164,14 @@ class MemberTest {
 
     @Test
     void updateInfoInFailure() {
-        assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest(null, "저는 제우입니다.")))
+        assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest(member.getId(), null, "저는 제우입니다.")))
                 .isInstanceOf(IllegalStateException.class);
 
         member.activate();
 
-        assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest(null, "저는 제우입니다.")))
+        assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest(member.getId(), null, "저는 제우입니다.")))
                 .isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest("@jewoo", "앙!")))
+        assertThatThrownBy(() -> member.updateInfo(new MemberInfoUpdateRequest(member.getId(), "@jewoo", "앙!")))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

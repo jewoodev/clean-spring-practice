@@ -84,7 +84,7 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
     @Test
     void updateInfoSuccessful() {
         Member member1 = memberRegister.register(createMemberRegisterRequest());
-        var updateRequest1 = new MemberInfoUpdateRequest("@jewoo", "저는 제우입니다.");
+        var updateRequest1 = new MemberInfoUpdateRequest(member1.getId(), "@jewoo", "저는 제우입니다.");
 
         member1 = memberRegister.activate(member1.getId());
 
@@ -95,7 +95,7 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
         assertThat(member1.getDetail().getRegisteredAt()).isNotNull();
 
         Member member2 = memberRegister.register(createMemberRegisterRequest("unhoyouknow@example.com"));
-        var updateRequest2 = new MemberInfoUpdateRequest("@unhoyouknow", "저는 유노윤호입니다.");
+        var updateRequest2 = new MemberInfoUpdateRequest(member2.getId(), "@unhoyouknow", "저는 유노윤호입니다.");
 
         member2 = memberRegister.activate(member2.getId());
 
@@ -106,7 +106,7 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
         assertThat(member2.getDetail().getActivatedAt()).isNotNull();
 
         // 프로필 주소를 제거하는 것도 가능하다.
-        var removeProfile = new MemberInfoUpdateRequest("", "저는 유노윤호입니다.");
+        var removeProfile = new MemberInfoUpdateRequest(member2.getId(), "", "저는 유노윤호입니다.");
         member2 = memberRegister.updateInfo(member2.getId(), removeProfile);
         assertThat(member2.getDetail().getProfile().address()).isEqualTo("");
     }
@@ -114,7 +114,7 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
     @Test
     void updateInfoInFailure() {
         Member member = memberRegister.register(createMemberRegisterRequest());
-        var validRequest = new MemberInfoUpdateRequest("@jewoo", "저는 제우입니다.");
+        var validRequest = new MemberInfoUpdateRequest(member.getId(), "@jewoo", "저는 제우입니다.");
 
         var finalMember1 = member;
         assertThatThrownBy(() -> memberRegister.updateInfo(finalMember1.getId(), validRequest))
@@ -124,17 +124,17 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
 
         var finalMember2 = member;
         // 프로필 주소는 맨 앞에 @가 없으면 실패한다.
-        var invalid1 = new MemberInfoUpdateRequest("j", "저는 제우입니다.");
+        var invalid1 = new MemberInfoUpdateRequest(finalMember2.getId(), "j", "저는 제우입니다.");
         assertThatThrownBy(() -> memberRegister.updateInfo(finalMember2.getId(), invalid1))
                 .isInstanceOf(IllegalArgumentException.class);
 
         // 자기 소개 글은 다섯 글자 보다 짧을 수 없다.
-        var invalid2 = new MemberInfoUpdateRequest("@jewoo", "앙!");
+        var invalid2 = new MemberInfoUpdateRequest(finalMember2.getId(), "@jewoo", "앙!");
         assertThatThrownBy(() -> memberRegister.updateInfo(finalMember2.getId(), invalid2))
                 .isInstanceOf(ConstraintViolationException.class);
 
         // 프로필 주소이건 자기 소개 글이건 null값으로 변경하는 요청은 비정상적인 요청이다.
-        var invalid3 = new MemberInfoUpdateRequest("@jewoo", null);
+        var invalid3 = new MemberInfoUpdateRequest(finalMember2.getId(), "@jewoo", null);
         assertThatThrownBy(() -> memberRegister.updateInfo(finalMember2.getId(), invalid3))
                 .isInstanceOf(NullPointerException.class);
 
@@ -146,7 +146,7 @@ record MemberRegisterTest(MemberRegister memberRegister, MemberRepository member
         memberRegister.activate(mdp.getId());
 
         // urdp = updateRequestDuplicateProfile
-        var urdp = new MemberInfoUpdateRequest("@jewoo", "저는 제우입니다.");
+        var urdp = new MemberInfoUpdateRequest(mdp.getId(), "@jewoo", "저는 제우입니다.");
 
         assertThatThrownBy(() -> memberRegister.updateInfo(mdp.getId(), urdp))
                 .isInstanceOf(DuplicateProfileException.class);
